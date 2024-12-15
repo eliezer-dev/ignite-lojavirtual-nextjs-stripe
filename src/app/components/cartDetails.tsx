@@ -6,10 +6,10 @@ import {
     TotalValueContainer,
     ButtonContainer
 } from "@/styles/components/cartDetails";
-import ItemSelected from "@/components/itemSelected";
+import ItemSelected from "@/app/components/itemSelected";
 import Image from "next/image"
 import closeIcon from "@/assets/closeIcon.svg"
-import Button from "@/components/button";
+import Button from "@/app/ui/button";
 import {useData} from "@/context/DataContext";
 import {useEffect, useState} from "react";
 import {ProductProps} from "@/pages/product/[id]";

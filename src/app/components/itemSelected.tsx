@@ -1,7 +1,7 @@
 import Image from "next/image";
 
 import {ImageContainer, ItemSelectContainer, ShirtInformation} from "@/styles/components/itemSelected";
-import ButtonText from "@/components/buttonText";
+import ButtonText from "@/app/ui/buttonText";
 
 interface ItemSelectedProps {
     productName: string,
