@@ -4,7 +4,7 @@ import {globalStyles} from "@/styles/global";
 import {Container} from "@/styles/pages/app";
 import Header from "@/app/components/header/styles";
 import {DataProvider, useData} from "@/context/DataContext";
-import CartDetails from "@/app/components/cartDetails";
+import CartDetails from "@/app/components/cartDetails/styles";
 
 globalStyles();
 export default function MyApp({Component, pageProps}: AppProps) {

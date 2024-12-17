@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { stripe } from "@/lib/stripe";
-import {PriceStripe} from "@/app/components/cartDetails";
+import {PriceStripe} from "@/app/components/cartDetails/styles";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 

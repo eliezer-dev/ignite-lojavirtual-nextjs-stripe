@@ -1,3 +1,5 @@
+'use client'
+
 import {
     CartDetailsContainer,
     ClosedButton,
@@ -5,14 +7,14 @@ import {
     TotalQuantity,
     TotalValueContainer,
     ButtonContainer
-} from "@/styles/components/cartDetails";
+} from "@/app/components/cartDetails/styles";
 import ItemSelected from "@/app/components/itemSelected";
 import Image from "next/image"
 import closeIcon from "@/assets/closeIcon.svg"
 import Button from "@/app/ui/button";
 import {useData} from "@/context/DataContext";
 import {useEffect, useState} from "react";
-import {ProductProps} from "@/pages/product/[id]";
+import {ProductProps} from "@/app/product/[id]/page";
 import {number} from "prop-types";
 import {formatToBRL} from "@/utils/geral";
 import axios from "axios";
@@ -23,22 +25,22 @@ export interface PriceStripe {
 }
 
 export default function CartDetails() {
-    const { data, handleCartDetails, showCartDetails } = useData();
+    const { data, handleCartDetails, showCartDetails, handleRemoveItemData } = useData();
     const [cartItems, setCartItems] = useState<ProductProps[]>([])
     const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] = useState(false);
-    const [isEnabled, setIsEnabled] = useState(false);
+    const [showCartDetailsState, setCartDetailsState] = useState('disabled');
 
 
     useEffect(() => {
         if (data.length > 0) {
             setCartItems(data)
         }
+     }, [data]);
 
-        setIsEnabled(showCartDetails)
-        // if (showCartDetails != isEnabled) {
-        //     setIsEnabled(showCartDetails)
-        // }
-    }, [data, showCartDetails]);
+    useEffect(() => {
+        console.log('chegou aqui' + showCartDetails)
+        setCartDetailsState('enabled')
+    }, [showCartDetails]);
 
     const getTotalPrice = () => {
 
@@ -68,7 +70,6 @@ export default function CartDetails() {
 
         try {
             setIsCreatingCheckoutSession(true);
-            console.log()
             const response = await axios.post('/api/checkout', productsPriceIdsList)
 
             const { checkoutUrl } = response.data;
@@ -83,13 +84,14 @@ export default function CartDetails() {
     }
 
     function handleRemoveCartItem (cartItemId : string) {
+        handleRemoveItemData(cartItemId)
         setCartItems(cartItems.filter(cartItem => cartItem.id !== cartItemId ))
     }
 
 
     return (
-        <CartDetailsContainer state = {isEnabled ? 'enabled' : 'disabled'}>
-            <ClosedButton onClick = {() => setIsEnabled(false)}>
+         <CartDetailsContainer className={showCartDetailsState}>
+            <ClosedButton onClick = {() => setCartDetailsState('disabled')}>
                 <Image src={closeIcon} alt="Desenho de um X que fecha a tela" />
             </ClosedButton>
             <h1>Sacola de Compras</h1>

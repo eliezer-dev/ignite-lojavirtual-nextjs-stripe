@@ -3,13 +3,14 @@
 
 import Image from 'next/image';
 import Head from 'next/head';
-import React, {useEffect, useState} from 'react';
+import * as React from 'react';
 import { useData } from '@/context/DataContext';
 import { formatToBRL } from '@/utils/geral';
 import { ImageContainer, ProductContainer, ProductDetails } from '@/styles/pages/product';
 import {useParams} from "next/navigation";
+import {useEffect, useState} from "react";
 
-interface ProductProps {
+export interface ProductProps {
     id: string;
     name: string;
     imageUrl: string;
@@ -26,21 +27,17 @@ type Props = {
 
 export default function ProductPage( ) {
     const [productDetailsState, setProductDetailsState] = useState<ProductProps>();
-    const params = useParams();
+    const params = useParams<{ id: string }>()
     //const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] = useState(false);
-    //const { addProductToCart, handleCartDetails } = useData();
+    const { addProductToCart, handleCartDetails } = useData();
 
     // Busca os dados do produto no servidor (route.ts)
 
                                                             
     useEffect(() => {
 
-
-        console.log("chegou aqui" + params?.id)
-        if (params?.id) {
-            console.log("chegou aqui2" + params?.id)
-            getProductDetails(params?.id as string).then((productDetails) => {
-                console.log(productDetails)
+         if (params != null) {
+            getProductDetails(params.id).then((productDetails) => {
                 setProductDetailsState(productDetails);
             });
 
@@ -51,10 +48,14 @@ export default function ProductPage( ) {
 
 
 
-    // function handleBuyButton() {
-    //     addProductToCart(product);
-    //     handleCartDetails(true);
-    // }
+    function handleBuyButton() {
+        if (productDetailsState) {
+            addProductToCart(productDetailsState);
+            handleCartDetails(true);
+        }
+
+
+    }
 
     return (
         <>
@@ -80,7 +81,7 @@ export default function ProductPage( ) {
                             {/*    Comprar agora*/}
                             {/*</button>*/}
 
-                            <button >
+                            <button onClick={handleBuyButton}>
                                 Comprar agora
                             </button>
                         </ProductDetails>

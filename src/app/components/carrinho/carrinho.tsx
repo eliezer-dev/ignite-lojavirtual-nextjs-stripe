@@ -1,9 +1,11 @@
-import {CarrinhoContainer, QuantityItemCartContainer} from "@/styles/components/carrinho";
+'use client'
+
+import {CarrinhoContainer, QuantityItemCartContainer} from "@/app/components/carrinho/styles";
 import Image from "next/image";
 import emptyCart from "@/assets/empty_cart.svg";
 import {useEffect, useState} from "react";
 import {useData} from "@/context/DataContext";
-import {ProductProps} from "@/pages/product/[id]";
+import {ProductProps} from "@/app/product/[id]/page";
 
 export default function Carrinho () {
     const [cartItems, setCartItems] = useState<ProductProps[]>([])
@@ -16,15 +18,18 @@ export default function Carrinho () {
 
     },[data])
 
+    function handleShowCartDetails () {
+        handleCartDetails(true)
+    }
+
 
     return (
-        <>
-            <CarrinhoContainer onClick={handleCartDetails}>
+
+            <CarrinhoContainer onClick={handleShowCartDetails}>
                 <QuantityItemCartContainer>
                     <p>{cartItems.length}</p>
                 </QuantityItemCartContainer>
                 <Image src={emptyCart} alt="icone representando um carrinho vazio"/>
             </CarrinhoContainer>
-        </>
     )
 }

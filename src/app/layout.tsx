@@ -2,6 +2,8 @@ import {getCssText, globalCss} from "@/styles";
 import { globalStyles } from "@/styles/global";
 import {Container} from "@/styles/pages/app";
 import Header from "@/app/components/header/header";
+import {DataProvider, useData} from "@/context/DataContext";
+import CartDetails from "@/app/components/cartDetails/cartDetails";
 
 
 globalStyles();
@@ -28,10 +30,13 @@ export default function RootLayout({
         <style id="stitches" dangerouslySetInnerHTML={{__html: getCssText()}}/>
       </head>
       <body>
+        <DataProvider>
         <Container>
             <Header/>
+            <CartDetails/>
             {children}
         </Container>
+        </DataProvider>
 
       </body>
 
