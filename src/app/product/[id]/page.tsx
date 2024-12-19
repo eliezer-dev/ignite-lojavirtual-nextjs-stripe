@@ -93,7 +93,7 @@ export default function ProductPage( ) {
     );
 }
 
-export async function getProductDetails(productId: string) {
+async function getProductDetails(productId: string) {
     const res = await fetch(`/api/product/${productId}`);
     const product: ProductProps = await res.json();
 

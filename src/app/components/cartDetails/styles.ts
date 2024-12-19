@@ -11,28 +11,8 @@ export const CartDetailsContainer = styled('div', {
     width: '480px',
     backgroundColor: '$gray800',
     padding: '24px',
-    border: '1px solid red',
     overflow: 'hidden',
 
-    // transform: 'translateX(110%)',
-    // opacity: 0,
-    // transition: 'all 0.2s ease-in-out',
-
-
-    // variants: {
-    //     state: {
-    //         enabled: {
-    //             transform: 'translateX(0)',
-    //             transition: 'all 0.2s ease-in-out',
-    //             opacity: 1,
-    //         },
-    //         disabled: {
-    //             transform: 'translateX(110%)',
-    //             opacity: 0,
-    //             transition: 'all 0.2s ease-in-out',
-    //         },
-    //     },
-    // },
 
     '&.disabled': {
         transform: 'translateX(110%)',

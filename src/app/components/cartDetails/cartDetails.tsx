@@ -38,8 +38,14 @@ export default function CartDetails() {
      }, [data]);
 
     useEffect(() => {
-        console.log('chegou aqui' + showCartDetails)
-        setCartDetailsState('enabled')
+        if (showCartDetails == true && showCartDetailsState == 'disabled') {
+            setCartDetailsState('enabled')
+        }
+
+        if (showCartDetails == false && showCartDetailsState == 'enabled') {
+            setCartDetailsState('disabled')
+        }
+
     }, [showCartDetails]);
 
     const getTotalPrice = () => {
@@ -88,10 +94,15 @@ export default function CartDetails() {
         setCartItems(cartItems.filter(cartItem => cartItem.id !== cartItemId ))
     }
 
+    function handleDisabledCartDetails () {
+        setCartDetailsState('disabled')
+        handleCartDetails(false)
+    }
+
 
     return (
          <CartDetailsContainer className={showCartDetailsState}>
-            <ClosedButton onClick = {() => setCartDetailsState('disabled')}>
+            <ClosedButton onClick = {handleDisabledCartDetails}>
                 <Image src={closeIcon} alt="Desenho de um X que fecha a tela" />
             </ClosedButton>
             <h1>Sacola de Compras</h1>
