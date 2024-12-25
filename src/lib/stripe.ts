@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 if (!process.env.STRIPE_SECRET_KEY) {
-    console.log("STRIPE_SECRET_KEY:", process.env.STRIPE_SECRET_KEY);
+    console.error("STRIPE_SECRET_KEY:", process.env.STRIPE_SECRET_KEY);
     throw new Error("STRIPE_SECRET_KEY não definida. Verifique o arquivo .env.");
 }
 
