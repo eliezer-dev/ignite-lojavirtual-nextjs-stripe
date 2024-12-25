@@ -50,7 +50,7 @@ export  default async function Page ({searchParams,}: {
                     caminho da sua casa.
                 </p>
 
-                <Link href="/public">
+                <Link href="/">
                     Voltar ao catálogo
                 </Link>
             </SuccessContainer>
