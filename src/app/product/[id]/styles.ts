@@ -1,7 +1,10 @@
-import { styled } from "@/styles";
+'use client'
 
-export const ProductContainer = styled('main', {
-    'h1' : {
-        color: 'red'
-    }
-})
+import styled from "styled-components";
+
+export const ProductContainer = styled.main`
+    h1  {
+    color: red;
+}
+
+`

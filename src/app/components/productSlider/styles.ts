@@ -1,66 +1,66 @@
-import {styled} from "@/styles";
+'use client'
 
-export const ProductSliderContainer = styled('div' ,{
-    // width: '100%',
-    // maxWidth: 'calc(100vw - ((100vw - 1180px)/2))',
-    // marginLeft: 'auto',
-    // minHeight: '656px'
-});
+import styled from 'styled-components';
 
-export const Product = styled('div', {
-    background: 'linear-gradient(180deg, #1ea483 0%, #7465d4 100%)',
-    borderRadius: 8,
-    position: 'relative',
-    overflow: 'hidden',
+export const ProductSliderContainer = styled.div``;
 
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+export const Product = styled.div`
+    background: linear-gradient(180deg, #1ea483 0%, #7465d4 100%);
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
 
-    img: {
-        cursor: 'pointer',
-        objectFit: 'cover'
-    },
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    footer: {
-        position: 'absolute',
-        bottom: '0.25rem',
-        left: '0.25rem',
-        right: '0.25rem',
-        padding: '2rem',
+    cursor: pointer;
+    
+    img {
+       
+        object-fit: cover;
+    }
 
-        borderRadius: 6,
+    footer {
+        position: absolute;
+        bottom: 0.25rem;
+        left: 0.25rem;
+        right: 0.25rem;
+        padding: 2rem;
 
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
+        border-radius: 6px;
 
-        backgroundColor: 'rgba(0, 0, 0, 0.6)',
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
 
-        transform: 'translateY(110%)',
-        opacity: 0,
-        transition: 'all 0.2s ease-in-out',
+        background-color: rgba(0, 0, 0, 0.6);
 
-        strong: {
-            fontSize: '$lg',
-            color: '$gray100',
-        },
+        transform: translateY(110%);
+        opacity: 0;
+        transition: all 0.2s ease-in-out;
 
-        span: {
-            fontSize: '$xl',
-            fontWeight: 'bold',
-            color: '$green300'
-        },
-    },
-    '.footer_productinfo': {
-        display: 'flex',
-        flexDirection: 'column',
-    },
+        strong {
+            font-size: ${({ theme }) => theme.fontSizes.lg};
+            color: ${({ theme }) => theme.colors.gray100};
+        }
 
-    '&:hover': {
-        footer: {
-            transform: 'translateY(0%)',
-            opacity: 1
+        span {
+            font-size: ${({ theme }) => theme.fontSizes.xl};
+            font-weight: bold;
+            color: ${({ theme }) => theme.colors.green300};
         }
     }
-})
+
+    .footer_productinfo {
+        display: flex;
+        flex-direction: column;
+    }
+
+    &:hover {
+        footer {
+            transform: translateY(0%);
+            opacity: 1;
+        }
+    }
+`;

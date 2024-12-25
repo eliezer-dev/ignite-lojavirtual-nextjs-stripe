@@ -1,21 +1,28 @@
-import {css, globalCss, theme} from "@/styles/index";
+'use client'
 
-export  const globalStyles = globalCss({
-    '*': {
-        margin: 0,
-        padding: 0,
-        boxSizing: 'border-box',
-    },
+import { createGlobalStyle } from 'styled-components';
 
-    body: {
-        backgroundColor: '$gray900',
-        color: '$gray100',
-        '-webkit-font-smoothing': 'antialiased',
-    },
+export const GlobalStyles = createGlobalStyle`
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
 
-    'body, input, button, textarea': {
-        fontFamily: 'Roboto',
-        fontWeight: 400,
+  body {
+    background-color: #121214;
+    color: #e1e1e6;
+    -webkit-font-smoothing: antialiased;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+  }
 
-    }
-})
+  body, input, button, textarea {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+  }
+
+  main {
+    display: block;
+  }
+`;

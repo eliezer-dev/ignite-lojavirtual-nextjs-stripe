@@ -10,7 +10,7 @@ export default function Header () {
     return (
         <HeaderContainer>
             <Link href={'/'}>
-               <Image src={logoImg} width={400} alt=""/>
+               <Image src={logoImg} width={400} alt="" priority={true}/>
             </Link>
             <Carrinho/>
         </HeaderContainer>

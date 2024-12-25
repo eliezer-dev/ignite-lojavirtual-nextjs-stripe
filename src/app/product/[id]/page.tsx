@@ -1,101 +1,54 @@
-'use client'
-
-
-import Image from 'next/image';
-import Head from 'next/head';
 import * as React from 'react';
-import { useData } from '@/context/DataContext';
-import { formatToBRL } from '@/utils/geral';
-import { ImageContainer, ProductContainer, ProductDetails } from '@/styles/pages/product';
-import {useParams} from "next/navigation";
-import {useEffect, useState} from "react";
+
+import ProductDetails from "@/app/components/productDetails/productDetails";
+import {stripe} from "@/lib/stripe";
+import Stripe from "stripe";
 
 export interface ProductProps {
     id: string;
     name: string;
     imageUrl: string;
     price: number;
-    description: string;
+    description: string | null;
     defaultPriceId: string;
 }
 
 type Props = {
-    params: {
-        id: string
-    }
+    id: string;
 }
 
-export default function ProductPage( ) {
-    const [productDetailsState, setProductDetailsState] = useState<ProductProps>();
-    const params = useParams<{ id: string }>()
-    //const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] = useState(false);
-    const { addProductToCart, handleCartDetails } = useData();
-
-    // Busca os dados do produto no servidor (route.ts)
-
-                                                            
-    useEffect(() => {
-
-         if (params != null) {
-            getProductDetails(params.id).then((productDetails) => {
-                setProductDetailsState(productDetails);
-            });
-
-        }
-
-
-    }, [params]);
-
-
-
-    function handleBuyButton() {
-        if (productDetailsState) {
-            addProductToCart(productDetailsState);
-            handleCartDetails(true);
-        }
-
-
-    }
+export default async function ProductPage({params}: {params: Promise<Props>}) {
+    const id = (await params).id
+    const product:ProductProps = await getProductDetails(id);
 
     return (
-        <>
-            <Head>
-                <title>{productDetailsState?.name}</title>
-            </Head>
-            <ProductContainer>
-                {
-                    productDetailsState &&
+            <ProductDetails product={product}/>
 
-                    <>
-                        <ImageContainer>
-                        <Image src={productDetailsState.imageUrl} width={520} height={480} alt="" />
-                        </ImageContainer>
-
-                        <ProductDetails>
-                            <h1>{productDetailsState.name}</h1>
-                            <span>{formatToBRL(productDetailsState.price)}</span>
-
-                            <p>{productDetailsState.description}</p>
-
-                            {/*<button disabled={isCreatingCheckoutSession} onClick={handleBuyButton}>*/}
-                            {/*    Comprar agora*/}
-                            {/*</button>*/}
-
-                            <button onClick={handleBuyButton}>
-                                Comprar agora
-                            </button>
-                        </ProductDetails>
-                    </>
-                }
-
-            </ProductContainer>
-        </>
-    );
+    )
 }
 
 async function getProductDetails(productId: string) {
-    const res = await fetch(`/api/product/${productId}`);
-    const product: ProductProps = await res.json();
 
-    return product;
+    try {
+        const product = await stripe.products.retrieve(productId, {
+            expand: ['default_price'],
+        });
+
+        const price = product.default_price as Stripe.Price;
+
+        const productData = {
+            id: product.id,
+            name: product.name,
+            imageUrl: product.images[0],
+            price: price.unit_amount! / 100,
+            description: product.description,
+            defaultPriceId: price.id,
+        };
+
+        return productData
+    } catch (error) {
+        throw new Error('Erro ao buscar detalhes do produto');
+    }
+
 }
+export const revalidate: number = 3600;

@@ -8,7 +8,6 @@ import bagImage from "@/assets/bag.svg";
 import {useEffect, useState} from "react";
 
 import {ProductSliderContainer, Product} from "@/app/components/productSlider/styles";
-import {useData} from "@/context/DataContext";
 
 export interface Product {
     id: string;
@@ -23,7 +22,7 @@ export interface ProductSliderProps {
 
 export default function ProductSlider(products : ProductSliderProps) {
     const [productsState, setProductsState] = useState<ProductSliderProps>();
-    //const { handleCartDetails } = useData();
+
 
     const [sliderRef, instanceRef] = useKeenSlider({
         slides: {
@@ -58,23 +57,21 @@ export default function ProductSlider(products : ProductSliderProps) {
 
                         <Product key={product.id} className="keen-slider__slide">
                             <Link href={`/product/${product.id}`} prefetch={false}>
-                                <Image src={product.imageUrl} width={520} height={480} alt=""/>
+                                <Image src={product.imageUrl} width={520} height={480} alt="" priority={true}/>
+
+                                <footer>
+                                    <div className='footer_productinfo'>
+                                        <strong>{product.name}</strong>
+                                        <span>{product.price}</span>
+                                    </div>
+                                    <Image src={bagImage}
+                                           alt="icone representando um carrinho vazio"/>
+
+
+                                </footer>
                             </Link>
-                            <footer>
-                                <div className='footer_productinfo'>
-                                    <strong>{product.name}</strong>
-                                    <span>{product.price}</span>
-                                </div>
-                                <Image
-                                    src={bagImage}
-                                    alt="icone representando um carrinho vazio"/>
-                                {/*<Image onClick={handleCartDetails}*/}
-                                {/*       src={bagImage}*/}
-                                {/*       alt="icone representando um carrinho vazio"/>*/}
-
-
-                            </footer>
                         </Product>
+
 
                     )
                 })}

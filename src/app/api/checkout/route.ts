@@ -2,17 +2,20 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { stripe } from "@/lib/stripe";
 import {PriceStripe} from "@/app/components/cartDetails/cartDetails";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export async function POST(req: Request) {
 
-
-    const productsPriceIdsList : PriceStripe[] = req.body;
+    const productsPriceIdsList : PriceStripe[] = await req.json()
 
     if (req.method !== "POST") {
-        return res.status(405).json({ error: "Method not allowed." });
+        return new Response(JSON.stringify({error: "Method not allowed."}), {
+            status: 405
+        })
     }
 
     if (productsPriceIdsList.length == 0) {
-        return res.status(400).json({ error: 'Price not found.' });
+        return new Response(JSON.stringify({error: "Price not found."}), {
+            status: 400
+        })
     }
 
     const successUrl = `${process.env.NEXT_URL}/success?session_id={CHECKOUT_SESSION_ID}`;
@@ -25,7 +28,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         line_items: productsPriceIdsList
     })
 
-    return res.status(201).json({
-        checkoutUrl: checkoutSession.url
+    return new Response(JSON.stringify({checkoutUrl: checkoutSession.url}), {
+        status: 201
     })
+
+
 }

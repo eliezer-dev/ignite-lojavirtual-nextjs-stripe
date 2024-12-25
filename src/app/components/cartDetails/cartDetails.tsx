@@ -8,10 +8,10 @@ import {
     TotalValueContainer,
     ButtonContainer
 } from "@/app/components/cartDetails/styles";
-import ItemSelected from "@/app/components/itemSelected";
+import ItemSelected from "@/app/components/itemSelected/itemSelected";
 import Image from "next/image"
 import closeIcon from "@/assets/closeIcon.svg"
-import Button from "@/app/ui/button";
+import Button from "@/app/ui/button/button";
 import {useData} from "@/context/DataContext";
 import {useEffect, useState} from "react";
 import {ProductProps} from "@/app/product/[id]/page";
@@ -129,9 +129,9 @@ export default function CartDetails() {
                         <p style={{fontSize: "18px"}}>Valor Total</p>
                         <p style={{fontSize: "24px"}}>{getTotalPrice()}</p>
                     </TotalPrice>
-                    <ButtonContainer onClick={handleBuyButton}>
-                        Finalizar Compra
-                    </ButtonContainer>
+                    <Button onClick={handleBuyButton}
+                            title={"Finalizar Compra"}
+                            disabled={isCreatingCheckoutSession || cartItems.length == 0}/>
                 </TotalValueContainer>
 
             </div>

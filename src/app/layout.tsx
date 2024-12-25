@@ -1,12 +1,15 @@
-import {getCssText, globalCss} from "@/styles";
-import { globalStyles } from "@/styles/global";
-import {Container} from "@/styles/pages/app";
-import Header from "@/app/components/header/header";
+import {theme} from "@/styles";
+import { GlobalStyles } from "@/styles/global";
+//import {Container} from "@/app/styles";
+// import Header from "@/app/components/header/header";
 import {DataProvider, useData} from "@/context/DataContext";
+import {AppContainer} from "@/app/styles";
+import {ThemeProvider} from "styled-components";
+import Providers from "@/providers";
+import Header from "@/app/components/header/header";
 import CartDetails from "@/app/components/cartDetails/cartDetails";
 
 
-globalStyles();
 
 export const metadata = {
   title: 'Next.js',
@@ -27,16 +30,18 @@ export default function RootLayout({
             href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Roboto:wght@400;700&display=swap"
             rel="stylesheet"
         />
-        <style id="stitches" dangerouslySetInnerHTML={{__html: getCssText()}}/>
+
       </head>
       <body>
-        <DataProvider>
-        <Container>
-            <Header/>
-            <CartDetails/>
-            {children}
-        </Container>
-        </DataProvider>
+      <DataProvider>
+        <Providers>
+            <AppContainer>
+                <Header/>
+                <CartDetails/>
+              {children}
+            </AppContainer>
+        </Providers>
+      </DataProvider>
 
       </body>
 

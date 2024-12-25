@@ -1,4 +1,4 @@
-import {ButtonTextContainer} from "@/styles/components/buttonText";
+import {ButtonTextContainer} from "@/app/ui/buttonText/styles";
 
 interface ButtonTextProps {
     title: string;

@@ -1,6 +1,5 @@
-import {ImageContainer, SuccessContainer} from "@/styles/pages/success";
+import {ImageContainer, SuccessContainer} from "@/app/success/styles";
 import Link from "next/link";
-import {GetServerSideProps} from "next";
 import {stripe} from "@/lib/stripe";
 import Stripe from "stripe";
 import React from "react";
@@ -15,7 +14,23 @@ interface SuccessProps {
     }
 }
 
-export  default function Success ({ costumerName, product }: SuccessProps) {
+export  default async function Page ({searchParams,}: {
+                    searchParams: Promise<{ [session_id: string]: string | string[] | undefined }>
+                    }) {
+
+    const query = (await searchParams).session_id
+
+    if (!query) {
+        return {
+            redirect: {
+                destination: '/',
+                permanent: false,
+            }
+        }
+    }
+
+    const {costumerName, product} = (await fetchCheckoutSucessData(String(query))).props
+
     return (
         <>
             <Head>
@@ -35,7 +50,7 @@ export  default function Success ({ costumerName, product }: SuccessProps) {
                     caminho da sua casa.
                 </p>
 
-                <Link href="/">
+                <Link href="/public">
                     Voltar ao catálogo
                 </Link>
             </SuccessContainer>
@@ -44,19 +59,11 @@ export  default function Success ({ costumerName, product }: SuccessProps) {
     )
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ query }) => {
-    if (!query.session_id) {
-        return {
-            redirect: {
-                destination: '/',
-                permanent: false,
-            }
-        }
-    }
+async function fetchCheckoutSucessData (querySessionId : string) {
 
-    const sessionId = String(query.session_id);
 
-    const session = await stripe.checkout.sessions.retrieve(sessionId, {
+
+    const session = await stripe.checkout.sessions.retrieve(querySessionId, {
         expand: ['line_items', 'line_items.data.price.product']
     });
 
